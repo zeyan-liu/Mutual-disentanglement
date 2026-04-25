@@ -5,7 +5,7 @@
 
 ## Abstract
 
-Please replace this paragraph with the abstract of the paper.
+Voice anonymization seeks to eliminate speaker information from speech signals while maintaining linguistic content and prosody. In state-of-the-art disentanglement-based voice anonymization frameworks, achieving a balance between de-identification and the preservation of original speech prosody poses a significant challenge. Current methods disentangle prosody and speaker attributes independently, neglecting their interdependent effects. This leads to the leakage of both prosody and speaker attributes within the other representations. To this end, this paper proposes a mutual disentanglement strategy that simultaneously mitigates speaker information during prosody disentanglement and reduces prosody information during speaker disentanglement. Experiments conducted on the VoicePrivacy 2024 benchmark show that the strategy improves privacy protection with better prosody preservation. Audio samples are available at https://anonymous.4open.science/r/Mutual-disentanglement-D5E0.
 
 ---
 
