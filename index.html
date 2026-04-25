@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Mutual Disentanglement Strategy for Voice Anonymization</title>
+
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --text: #1f2933;
+      --muted: #6b7280;
+      --border: #d8dee6;
+      --accent: #1f4e79;
+      --accent-light: #eef5fb;
+      --shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 48px 24px 72px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 44px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 34px;
+      line-height: 1.18;
+      font-weight: 700;
+      color: #000;
+    }
+
+    .subtitle {
+      font-size: 21px;
+      font-style: italic;
+      color: #111827;
+      margin-bottom: 34px;
+    }
+
+    .abstract-box {
+      max-width: 980px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px 34px;
+      text-align: left;
+      box-shadow: var(--shadow);
+    }
+
+    .abstract-box h2 {
+      text-align: center;
+      margin: 0 0 16px;
+      font-size: 25px;
+      color: #000;
+    }
+
+    .abstract-box p {
+      margin: 0;
+      font-size: 17px;
+      text-align: justify;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .toc {
+      margin: 36px auto 28px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .toc a {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: var(--accent-light);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: 700;
+    }
+
+    .system-section {
+      margin-top: 48px;
+      padding-top: 8px;
+    }
+
+    .system-title {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 30px;
+      color: #111827;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 22px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 12px 10px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    th {
+      background: #f3f6f9;
+      color: #111827;
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    td {
+      background: #ffffff;
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    .file-name {
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 14px;
+      color: #111827;
+      white-space: nowrap;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    audio {
+      width: 230px;
+      height: 34px;
+    }
+
+    .audio-link {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .audio-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 56px;
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 32px 14px 56px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+      }
+
+      .abstract-box {
+        padding: 22px 20px;
+      }
+
+      .abstract-box p {
+        font-size: 16px;
+      }
+
+      .system-title {
+        font-size: 26px;
+      }
+
+      audio {
+        width: 170px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header>
+      <h1>
+        Mutual Disentanglement Strategy<br />
+        for Voice Anonymization
+      </h1>
+
+      <div class="subtitle">Anonymous submission</div>
+
+      <section class="abstract-box">
+        <h2>Abstract</h2>
+        <p>
+          Please replace this paragraph with the abstract of the paper.
+        </p>
+
+        <div class="note">
+          Audio samples are organized by framework and method.
+          Only IDMap-Diff samples are shown.
+          <strong>w/o MD</strong> denotes the baseline without mutual disentanglement, and
+          <strong>w/ MD</strong> denotes the corresponding method with mutual disentanglement.
+        </div>
+      </section>
+    </header>
+
+    <nav class="toc" id="toc"></nav>
+
+    <div id="content"></div>
+
+    <footer>
+      Demo page for anonymous audio samples.
+    </footer>
+  </main>
+
+  <script>
+    const FILES = [
+      "1462-170142-0000.wav",
+      "1462-170142-0001.wav",
+      "84-121550-0000.wav",
+      "84-121550-0001.wav"
+    ];
+
+    const SYSTEMS = [
+      {
+        id: "x-vector-based",
+        title: "x-vector based",
+        folder: "x-vector based"
+      },
+      {
+        id: "sttts",
+        title: "STTTS",
+        folder: "STTTS"
+      },
+      {
+        id: "asrbn",
+        title: "Asrbn",
+        folder: "asrbn"
+      },
+      {
+        id: "asrbn-f0",
+        title: "Asrbn-F0",
+        folder: "asrbn-f0"
+      },
+      {
+        id: "proposed",
+        title: "Proposed",
+        folder: "Proposed"
+      },
+      {
+        id: "proposed-wo-md",
+        title: "Proposed w/o MD",
+        folder: "Proposed wo MD"
+      }
+    ];
+
+    const METHODS = [
+      {
+        title: "IDMap-Diff w/o MD",
+        folder: "idmap-diff"
+      },
+      {
+        title: "IDMap-Diff w/ MD",
+        folder: "idmap-diff-w"
+      }
+    ];
+
+    function encodePath(path) {
+      return path
+        .split("/")
+        .map(part => encodeURIComponent(part))
+        .join("/");
+    }
+
+    function createAudioCell(systemFolder, methodFolder, fileName) {
+      const td = document.createElement("td");
+
+      const path = `${systemFolder}/${methodFolder}/${fileName}`;
+      const encodedPath = encodePath(path);
+
+      const audio = document.createElement("audio");
+      audio.controls = true;
+      audio.preload = "none";
+      audio.src = encodedPath;
+
+      const link = document.createElement("a");
+      link.className = "audio-link";
+      link.href = encodedPath;
+      link.textContent = "open audio";
+      link.target = "_blank";
+      link.rel = "noopener";
+
+      td.appendChild(audio);
+      td.appendChild(link);
+
+      return td;
+    }
+
+    function renderTOC() {
+      const toc = document.getElementById("toc");
+
+      SYSTEMS.forEach(system => {
+        const a = document.createElement("a");
+        a.href = `#${system.id}`;
+        a.textContent = system.title;
+        toc.appendChild(a);
+      });
+    }
+
+    function renderSystem(system) {
+      const section = document.createElement("section");
+      section.className = "system-section";
+      section.id = system.id;
+
+      const title = document.createElement("h2");
+      title.className = "system-title";
+      title.textContent = system.title;
+      section.appendChild(title);
+
+      const tableWrap = document.createElement("div");
+      tableWrap.className = "table-wrap";
+
+      const table = document.createElement("table");
+
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+
+      const fileHeader = document.createElement("th");
+      fileHeader.textContent = "File name";
+      headerRow.appendChild(fileHeader);
+
+      METHODS.forEach(method => {
+        const th = document.createElement("th");
+        th.textContent = method.title;
+        headerRow.appendChild(th);
+      });
+
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+
+      FILES.forEach(fileName => {
+        const row = document.createElement("tr");
+
+        const fileCell = document.createElement("td");
+        fileCell.className = "file-name";
+        fileCell.textContent = fileName;
+        row.appendChild(fileCell);
+
+        METHODS.forEach(method => {
+          row.appendChild(createAudioCell(system.folder, method.folder, fileName));
+        });
+
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      tableWrap.appendChild(table);
+      section.appendChild(tableWrap);
+
+      return section;
+    }
+
+    function main() {
+      renderTOC();
+
+      const content = document.getElementById("content");
+
+      SYSTEMS.forEach(system => {
+        content.appendChild(renderSystem(system));
+      });
+    }
+
+    main();
+  </script>
+</body>
+</html>
